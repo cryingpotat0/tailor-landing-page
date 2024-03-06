@@ -1,0 +1,57 @@
+---
+import Tailor from '../components/Tailor.tsx';
+
+interface Menu {
+  label: string;
+  href: string;
+  external?: boolean;
+  badge?: string;
+}
+
+const rightmenu: Menu[] = [
+  {
+    label: "Home",
+    href: "/",
+  },
+  {
+    label: "Blog",
+    href: "/blog",
+  },
+];
+
+const rightmenuColor = "text-gray-400 dark:text-gray-400 hover:text-blue-500";
+
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body class="m-10">
+    <Tailor client:load/>
+<div class="mb-10">
+  {
+    rightmenu.map((item) => (
+      <a
+        href={item.href}
+        class=`px-5 py-2 text-sm font-medium ${rightmenuColor}`>
+        {item.label}
+      </a>
+      ))
+  }
+</div>
+    <slot />
+
+	</body>
+    <style is:global>
+        astro-dev-toolbar {
+            display: none;
+        }
+    </style>
+
+</html>
+

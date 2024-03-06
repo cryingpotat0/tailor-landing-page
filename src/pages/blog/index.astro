@@ -1,0 +1,20 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+console.log(posts);
+
+---
+
+<Page>
+<div class="m-10">
+  <ul>
+    {posts.map((post) => (
+      <li class="text-blue-500 hover:text-blue-600">
+        <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+      </li>
+    ))}
+  </ul>
+</div>
+</Page>
