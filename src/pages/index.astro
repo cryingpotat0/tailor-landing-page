@@ -1,15 +1,25 @@
 ---
 import Page from '../layouts/Page.astro';
 import Icon from 'astro-icon';
-import ScissorLeft from '../icons/scissor-left.svg';
-import ScissorRight from '../icons/scissor-right.svg';
 ---
 <Page>
   <div>
       <div class="w-full md:w-1/2 h-64 mx-auto flex items-center text-primary">
-          <Icon name="scissor-left" class="mr-5 text-rose" />
+          <Icon name="scissor-left" class="mr-5 text-rose w-full h-full" />
           <div class="text-2xl font-mono">tailor</div>
-          <Icon name="scissor-right" class="ml-5 text-rose"/>
+          <Icon name="scissor-right" class="ml-5 text-rose w-full h-full"/>
+      </div>
+      <div class="w-full text-center text-rose font-mono">
+        Edit Any Website
+      </div>
+      <div class="text-center text-primary font-mono justify-center flex my-3">
+        <a target="_blank" href="https://github.com/cryingpotat0" class="text-primary mx-3 hover:text-buff">
+          <Icon name="github" class="w-10 h-10" />
+        </a>
+        <a target="_blank" href="https://twitter.com/cryingpotat0" class="text-primary mx-3 hover:text-buff">
+          <Icon name="twitter" class="w-10 h-10" />
+        </a>
+
       </div>
   </div>
 </Page>
