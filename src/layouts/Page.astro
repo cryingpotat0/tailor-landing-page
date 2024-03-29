@@ -1,6 +1,8 @@
 ---
 import Tailor from '../components/Tailor.tsx';
 
+const showTailor = import.meta.env.SHOW_TAILOR;
+
 interface Menu {
   label: string;
   href: string;
@@ -31,21 +33,9 @@ const rightmenuColor = "text-blue-200 hover:text-blue-500";
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro</title>
 	</head>
-	<body class="m-10">
-    <Tailor client:load/>
-<div class="mb-10">
-  {
-    rightmenu.map((item) => (
-      <a
-        href={item.href}
-        class=`px-5 py-2 text-sm font-medium ${rightmenuColor}`>
-        {item.label}
-      </a>
-      ))
-  }
-</div>
-    <slot />
-
+	<body class="m-10 bg-secondary">
+        {showTailor ? <Tailor client:load/>: null}
+        <slot />
 	</body>
     <style is:global>
         astro-dev-toolbar {

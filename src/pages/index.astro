@@ -1,10 +1,16 @@
 ---
 import Page from '../layouts/Page.astro';
+import Icon from 'astro-icon';
+import ScissorLeft from '../icons/scissor-left.svg';
+import ScissorRight from '../icons/scissor-right.svg';
 ---
 <Page>
   <div>
-      Whats up bestie
-      <h1>Hello, worlddddd!</h1>
+      <div class="w-full md:w-1/2 h-64 mx-auto flex items-center text-primary">
+          <Icon name="scissor-left" class="mr-5 text-rose" />
+          <div class="text-2xl font-mono">tailor</div>
+          <Icon name="scissor-right" class="ml-5 text-rose"/>
+      </div>
   </div>
 </Page>
 
