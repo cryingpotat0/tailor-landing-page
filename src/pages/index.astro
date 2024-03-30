@@ -5,15 +5,25 @@ import ScissorLeft from '../icons/scissor-left.svg?raw';
 import ScissorRight from '../icons/scissor-right.svg?raw';
 import Github from '../icons/github.svg?raw';
 import Twitter from '../icons/github.svg?raw';
+
+import { getCollection } from "astro:content";
+
+const features = await getCollection("feature");
+const renderedFeatures = [];
+for (const feature of features) {
+  const { Content } = await feature.render();
+  renderedFeatures.push(Content);
+}
+
 ---
 <Page>
   <div>
       <div class="w-full md:w-1/2 h-64 mx-auto flex items-center text-primary">
           <Icon icon="scissor-left" class="w-full h-full text-rose mr-5" />
-          <div class="text-2xl font-mono">tailor</div>
+          <div class="text-2xl font-extrabold font-mono text-bold">tailor</div>
           <Icon icon="scissor-right" class="w-full h-full text-rose ml-5" />
       </div>
-      <div class="w-full text-center text-rose font-mono">
+      <div class="w-full text-center text-rose font-mono text-xl">
         Edit Any Website
       </div>
       <div class="text-center text-primary font-mono justify-center flex my-3">
@@ -21,7 +31,23 @@ import Twitter from '../icons/github.svg?raw';
         </a>
         <a target="_blank" href="https://twitter.com/cryingpotat0" class="text-primary mx-3 hover:text-buff">
         </a>
-
+      </div>
+      <div class="w-full text-center text-primary font-mono">
+        <!-- Feature panels -->
+        <div class="flex flex-wrap justify-center gap-2">
+          {features.map((feature, i) => {
+            const Content = renderedFeatures[i];
+            return (
+              <div class="w-full md:w-1/4 h-64 bg-rose p-4">
+                  <div class="text-center text-primary font-bold font-mono text-bold mb-3">{feature.data.title}</div>
+                  <div class="text-secondary font-mono text-sm">
+                      <Content />
+                  </div>
+                </div>
+              </div>
+            )
+          }
+          )}
       </div>
   </div>
 </Page>
