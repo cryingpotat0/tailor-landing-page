@@ -1,0 +1,50 @@
+---
+
+import Icon from '../components/icon.astro';
+
+const links: {
+    name: string,
+    icon?: string,
+    url: string,
+    description: string,
+}[] = [
+    {
+        name: 'CryingPotato',
+        description: 'Made with ❤️  by',
+        url: 'https://blog.cryingpotato.com',
+    },
+    {
+        name: 'Cannon',
+        description: 'CodeEditor provided by',
+        url: 'https://cannon.cryingpotato.com',
+        icon: 'cannon',
+    },
+    {
+        name: 'WebContainers',
+        description: 'Running code live is possible with',
+        url: 'https://webcontainers.dev',
+        icon: 'webcontainers',
+    },
+    {
+        name: 'Jack Hone',
+        description: 'Scissor SVG taken from',
+        url: 'https://thenounproject.com/icon/scissors-5334/',
+    },
+]
+
+---
+
+<footer>
+{links.map((link, index) => (
+    <div class="flex items-center justify-center m-1">
+        <div class="text-sm text-center">{link.description}</div>
+            <a href={link.url} target="_blank" rel="noopener noreferrer" key={index} class="ml-2 font-bold flex items-center align-middle hover:text-buff">
+                    {link.icon && <Icon icon={link.icon} class="w-6 h-6 mr-2" />}
+                {link.name}</span>
+            </a>
+    </div>
+))}
+</footer>
+
+
+
