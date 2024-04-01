@@ -1,6 +1,7 @@
 ---
 import Page from '../layouts/Page.astro';
 import Icon from '../components/icon.astro';
+import GetStarted from '../components/get-started.astro';
 import ScissorLeft from '../icons/scissor-left.svg?raw';
 import ScissorRight from '../icons/scissor-right.svg?raw';
 import Github from '../icons/github.svg?raw';
@@ -15,6 +16,17 @@ for (const feature of features) {
   renderedFeatures.push(Content);
 }
 
+const links = [
+    {
+        icon: "github",
+        href: "https://github.com/cryingpotat0",
+    },
+    {
+        icon: "twitter",
+        href: "https://twitter.com/cryingpotat0",
+    }
+];
+
 ---
 <Page>
   <div>
@@ -24,13 +36,16 @@ for (const feature of features) {
           <Icon icon="scissor-right" class="w-full h-full text-rose ml-5" />
       </div>
       <div class="w-full text-center text-rose font-mono text-xl">
-        Edit Any Website
+        Edit This Website - Inline.
       </div>
-      <div class="text-center text-primary font-mono justify-center flex my-3">
-        <a target="_blank" href="https://github.com/cryingpotat0" class="text-primary mx-3 hover:text-buff">
-        </a>
-        <a target="_blank" href="https://twitter.com/cryingpotat0" class="text-primary mx-3 hover:text-buff">
-        </a>
+      <div class="text-center text-primary justify-center flex mt-3 mb-6">
+        {links.map((link) => {
+            return (
+                <a target="_blank" href={link.href} class="text-primary mx-3 hover:text-buff">
+                    <Icon icon={link.icon} class="w-6 h-6"/>
+                </a>
+            );
+        })}
       </div>
       <div class="w-full text-center text-primary font-mono">
         <!-- Feature panels -->
@@ -49,6 +64,8 @@ for (const feature of features) {
           }
           )}
       </div>
+      <GetStarted />
   </div>
 </Page>
+
 

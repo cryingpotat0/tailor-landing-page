@@ -1,0 +1,59 @@
+---
+
+---
+
+
+<div>
+  <!-- Get started button with email input -->
+  <div class="w-full text-primary font-mono flex items-center justify-center mt-3">
+    <div class="text-primary font-mono text-sm">
+      <input type="email" class="p-2 border border-primary" placeholder="Email" id="get-started-email"/>
+    </div>
+    <div class="text-primary font-mono text-sm">
+      <button class="p-2 bg-rose text-primary font-mono text-sm" id="get-started-button">Get Started</button>
+    </div>
+  </div>
+  <!-- error messages if they exist -->
+  <div class="w-full text-primary font-mono flex items-center justify-center mt-3">
+    <div class="text-primary font-mono text-sm" id="get-started-error"></div>
+  </div>
+</div>
+
+
+<script>
+    const onclick = async (event) => {
+        try {
+            const email = document.getElementById("get-started-email").value;
+            const validateEmail = (email) => {
+                return String(email)
+                    .toLowerCase()
+                    .match(
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    );
+            };
+            const endpoint = 'https://cryingpotato-tailorEmailHandler.web.val.run';
+            if (!validateEmail(email)) {
+                throw new Error('Invalid email');
+            }
+            try {
+                await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                })
+
+                // Redirect to edit-tailor.cryingpotato.com
+                window.location.href = "https://edit-tailor.cryingpotato.com";
+            } catch(e) {
+                throw new Error('Failed to register, try again later.');
+            }
+        } catch(e) {
+            console.error(e);
+            document.getElementById("get-started-error").innerText = e.message;
+        }
+    }
+
+    document.getElementById("get-started-button").addEventListener("click", onclick);
+</script>
