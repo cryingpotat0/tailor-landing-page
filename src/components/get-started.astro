@@ -21,6 +21,18 @@
 
 
 <script>
+    const userAgentNotDesktopChrome = () => {
+      var userAgent = navigator.userAgent;
+      var isChrome = userAgent.includes('Chrome') || userAgent.includes('Chromium');
+      var isDesktop = !userAgent.includes('Mobile');
+
+          // If the browser is Chrome (or Chromium) and isDesktop is true, return false (meaning it is desktop Chrome)
+          // Otherwise, return true (meaning it is not desktop Chrome)
+          return !(isChrome && isDesktop);
+      }
+
+
+
     const onclick = async (event) => {
         try {
             const email = document.getElementById("get-started-email").value;
@@ -45,10 +57,15 @@
                 })
 
                 // Redirect to edit-tailor.cryingpotato.com
-                window.location.href = "https://edit-tailor.cryingpotato.com";
             } catch(e) {
                 throw new Error('Failed to register, try again later.');
             }
+
+            if (userAgentNotDesktopChrome()) {
+                throw new Error('This experience only works on Desktop Chrome.');
+            }
+
+            window.location.href = "https://edit-tailor.cryingpotato.com";
         } catch(e) {
             console.error(e);
             document.getElementById("get-started-error").innerText = e.message;
