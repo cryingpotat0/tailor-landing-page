@@ -1,4 +1,4 @@
-import { faEye, faAlignJustify, faPencil, faScissors, type IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faAlignJustify, faPencil, faScissors, type IconDefinition, faLink, faCheckCircle, faCross, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getBox } from "css-box-model";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -247,9 +247,10 @@ function DomCanvas({ element, state, tool, setTool }: {
 
 
 enum Tool {
-  CSS = 'CSS',
-  Edit = 'Edit',
+  CSS = 'Update CSS',
+  Edit = 'Edit Text',
   Locate = 'Locate',
+  Link = 'Update Link',
 };
 
 type ToolData = {
@@ -290,7 +291,15 @@ const tools: ToolData[] = [
       return location?.type === 'self';
     },
     shouldShowBoundingBox: false,
-  }
+  },
+  {
+    name: Tool.Link,
+    icon: faLink,
+    shouldShow: ({ element }) => {
+      return element.tagName.toLowerCase() === 'a';
+    },
+    shouldShowBoundingBox: false,
+  },
 ];
 
 type Location = {
@@ -365,10 +374,12 @@ function Toolbar({
     right = mouseX > screenWidth - width ? screenWidth - mouseX : screenWidth - width - mouseX;
   }
 
+  const [showTooltipForIndex, setShowTooltipForIndex] = useState<number | null>(null);
+
 
   return (
     <div
-      className={`fixed bg-secondary pointer-events-${pointerEvents} z-[5000] border border-buff`}
+      className={`fixed bg-secondary pointer-events-${pointerEvents} z-[5000] border border-buff overflow-auto`}
       style={{
         top,
         right,
@@ -384,13 +395,28 @@ function Toolbar({
           {tools.map((toolData, i) => {
             if (toolData.shouldShow({ element, location })) {
               return (
-                <button
-                  key={i}
-                  className={`p-1 rounded ${isSelected && tool?.name === toolData.name ? 'bg-primary text-secondary' : 'bg-secondary text-primary'}`}
-                  onClick={() => setTool(toolData.name)}
-                >
-                  <FontAwesomeIcon icon={toolData.icon} />
-                </button>
+                <>
+                  <button
+                    key={i}
+                    className={`p-1 rounded ${isSelected && tool?.name === toolData.name ? 'bg-primary text-secondary' : 'bg-secondary text-primary'}`}
+                    onClick={() => setTool(toolData.name)}
+                    onMouseEnter={() => {
+                      setShowTooltipForIndex(i);
+                    }}
+                    onMouseLeave={() => {
+                      setShowTooltipForIndex(null);
+                    }}
+                  >
+
+                    <FontAwesomeIcon icon={toolData.icon} />
+                  </button>
+                  {/* Hover tooltip above button */}
+                  {showTooltipForIndex === i && (
+                    <div className="absolute bg-secondary text-primary p-2 rounded text-xs top-[75px]">
+                      {toolData.name}
+                    </div>
+                  )}
+                </>
               )
             }
           })}
@@ -420,11 +446,50 @@ function ToolDisplay({
       return <EditElement element={element} setTool={setTool} location={location} />
     case Tool.Locate:
       return <Locate location={location} />
+    case Tool.Link:
+      return <LinkUpdate element={element} location={location} />
     default:
       let _exhaustiveCheck: never = tool;
       return _exhaustiveCheck;
   }
 }
+
+function LinkUpdate({
+  element,
+  location,
+}: {
+  element: HTMLElement,
+  location: Location | undefined,
+}) {
+  const [newHref, setNewHref] = useState(element instanceof HTMLAnchorElement ? element.href : '');
+  return (
+    <div className="flex gap-2 text-xs">
+      <input type="text" className="w-full bg-buff p-1 rounded" placeholder="New href" value={newHref} onChange={(e) => setNewHref(e.target.value)} />
+      <button className="bg-rose text-secondary p-1 rounded disabled:bg-gray-50"
+        disabled={!newHref}
+        onClick={async () => {
+          const edit /* Edit */ = {
+            type: 'precise',
+            action: `Update link to ${newHref}`,
+            filePath: location.filePath,
+            lineNumber: location.lineNumber,
+          };
+          parent.postMessage({
+            type: 'apiCall',
+            url: window.location.href,
+            body: {
+              edit,
+            },
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }, '*');
+        }}
+      >Update</button>
+    </div>
+  )
+}
+
 
 function Locate({ location }: { location: Location }) {
   useEffect(() => {
@@ -468,7 +533,7 @@ function EditElement({
   return (
     <div className="flex gap-2">
       <button
-        className="bg-rose text-secondary p-1 rounded"
+        className="bg-rose text-secondary p-1 rounded text-sm hover:bg-buff"
         onClick={() => {
           element.contentEditable = 'false';
           setTool(null);
@@ -497,9 +562,11 @@ function EditElement({
             },
           }, '*');
         }}
-      >Done</button>
+      >
+        <FontAwesomeIcon icon={faCheckCircle} />
+      </button>
       <button
-        className="bg-rose text-secondary p-1 rounded"
+        className="bg-rose text-secondary p-1 rounded text-sm hover:bg-buff"
         onClick={() => {
           element.contentEditable = 'false';
           if (initialText.current) {
@@ -507,7 +574,9 @@ function EditElement({
           }
           setTool(null);
         }}
-      >Discard</button>
+      >
+        <FontAwesomeIcon icon={faXmarkCircle} />
+      </button>
     </div>
   )
 }
