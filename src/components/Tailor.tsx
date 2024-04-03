@@ -395,9 +395,10 @@ function Toolbar({
           {tools.map((toolData, i) => {
             if (toolData.shouldShow({ element, location })) {
               return (
-                <>
+                <div
+                  key={i}
+                >
                   <button
-                    key={i}
                     className={`p-1 rounded ${isSelected && tool?.name === toolData.name ? 'bg-primary text-secondary' : 'bg-secondary text-primary'}`}
                     onClick={() => setTool(toolData.name)}
                     onMouseEnter={() => {
@@ -416,7 +417,7 @@ function Toolbar({
                       {toolData.name}
                     </div>
                   )}
-                </>
+                </div>
               )
             }
           })}

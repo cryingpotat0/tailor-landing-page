@@ -2,5 +2,5 @@
 title: In-browser Magic
 ---
 
-Use Cannon, WebContainers and Github PRs to integrate into a full dev workflow - right from your browser.
+Use WebContainers and Github PRs to let anyone edit your website with a complete developer workflow - right from your browser.
 

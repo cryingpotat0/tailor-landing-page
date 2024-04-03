@@ -2,5 +2,5 @@
 title: Code is King
 ---
 
-Uses code as a source of truth - never translate between different domains again.
+Make small edits - visually - on any codebase by leveraging source maps and language servers along with the reasoning ability of LLMs.
 
