@@ -354,7 +354,7 @@ function Toolbar({
 }) {
 
   const width = 250; // px
-  const height = 150; // px
+  const height = 250; // px
   let top, left, right;
 
   const { x: mouseX, y: mouseY } = useMousePosition();
