@@ -150,9 +150,9 @@ function Canvas() {
   }, [state, tool]);
 
   return (
-    <div className="fixed top-0 right-[63px] exclude-tracking z-[5000]">
+    <div className="fixed top-0 right-[48px] exclude-tracking z-[5000]">
       <button
-        className={`p-1 w-8 h-10 ${state.status === Status.inspecting ? 'bg-primary text-secondary' : 'bg-rose text-primary hover:bg-secondary'}`}
+        className={`p-1 w-[32px] h-[40px] ${state.status === Status.inspecting ? 'bg-primary text-secondary' : 'bg-rose text-primary hover:bg-secondary'}`}
         onClick={() => {
           setStatus(state.status === Status.idle ? { status: Status.inspecting } : { status: Status.idle });
         }}

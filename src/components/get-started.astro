@@ -62,7 +62,7 @@
             }
 
             if (userAgentNotDesktopChrome()) {
-                throw new Error('This experience only works on Desktop Chrome.');
+                throw new Error('This experience only works on Desktop Chrome due to WebContainer limitations.');
             }
 
             window.location.href = "https://edit-tailor.cryingpotato.com";
