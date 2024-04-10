@@ -1,23 +1,27 @@
 ---
+import GetStarted from './get-started.astro';
 import Icon from './icon.astro';
 
 const steps = [
     {
         name: "Inspect and Tweak",
-        gif: "/inspect-and-tweak.gif",
+        subtitle: "Edit CSS, text, links, and more",
+        gif: "/inspect-and-edit.gif",
     },
     {
         name: "Let Tailor Work",
-        gif: "/let-tailor-work.gif",
+        subtitle: "Your tweak is translated into code",
+        gif: "/tailor-working.gif",
     },
     {
         name: "Commit Changes",
-        gif: "/commit-changes.gif",
+        subtitle: "Maintain the same git workflow",
+        gif: "/tailor-commit.gif",
     },
 ];
 ---
 
-<section class="flex-col flex scroll-mt-24 items-center space-y-2 h-full relative" id="how">
+<section class="flex-col flex scroll-mt-24 items-center space-y-2 h-full relative" id="what">
     <h2
       class="flex gradient-text text-center font-extrabold tracking-tighter text-4xl w-full justify-center align-middle items-center"
     >
@@ -27,12 +31,18 @@ const steps = [
         <Icon icon="scissor-right" class="w-16 h-16 ml-2" />
 
     </h2>
-    <div class="w-full md:w-1/2 text-xl">
+    <div class="w-full md:w-1/2">
         {steps.map((step, index) => (
-            <div class="flex flex-col items-center space-y-2" key={index}>
-                <h3 class="text-2xl font-bold">{step.name}</h3>
-                <img src={step.gif} alt={step.name} class="w-full" />
+            <div class="grid grid-cols-6 items-center space-y-2 space-x-3 text-buff" key={index}>
+                <div class="col-span-2 md:col-span-3">
+                    <h3 class="text-lg md:text-2xl font-bold text-center">{index + 1}. {step.name}</h3>
+                    <p class="text-center text-rose">{step.subtitle}</p>
+                </div>
+                <div class="col-span-4 md:col-span-3 flex justify-center">
+                    <img src={step.gif} alt={step.name} class="w-full max-w-64 border border-buff rounded-md" />
+                </div>
             </div>
         ))}
     </div>
+    <GetStarted />
 </section>

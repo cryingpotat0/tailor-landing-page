@@ -1,0 +1,43 @@
+---
+import Icon from './icon.astro';
+
+const reasons = [
+    {
+        linkWord: "WebContainers",
+        link: "https://webcontainers.dev/",
+        reason: "let us run code in the browser.",
+        icon: "webcontainers",
+    },
+    {
+        linkWord: "LLMs",
+        link: "https://platform.openai.com/",
+        reason: "let us turn HTML edits to source code edits.",
+        icon: "openai",
+    },
+    {
+        linkWord: "LSPs",
+        link: "https://microsoft.github.io/language-server-protocol/",
+        reason: "and sourcemaps let LLMs navigate code in context.",
+        icon: "microsoft",
+    },
+];
+---
+
+<section class="flex-col md:flex-row flex scroll-mt-24 items-center space-y-2" id="how">
+    <h2
+      class="text-center font-extrabold text-4xl w-full"
+    >
+        Tailor is made possible by 3 things
+    </h2>
+    <div class="w-full md:w-1/2 text-xl font-semibold">
+        {reasons.map(({ reason, icon, link, linkWord }) => (
+            <div class="grid grid-cols-6 m-10 items-center">
+                <Icon icon={icon} class="w-12 h-12 text-rose col-span-2" />
+                <p class="text-center text-buff col-span-4">
+                  <a href={link} class="text-primary hover:text-rose">{linkWord}</a>
+                  {reason}
+                </p>
+            </div>
+        ))}
+    </div>
+</section>

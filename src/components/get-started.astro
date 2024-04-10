@@ -5,17 +5,17 @@
 
 <div>
   <!-- Get started button with email input -->
-  <div class="w-full text-primary font-mono flex items-center justify-center mt-3">
-    <div class="text-primary font-mono text-sm">
-      <input type="email" class="p-2 border border-primary" placeholder="Email" id="get-started-email"/>
+  <div class="w-full text-primary flex items-center justify-center mt-3">
+    <div class="text-primary text-sm">
+      <input type="email" class="p-2 rounded-l-lg" placeholder="Email" id="get-started-email"/>
     </div>
-    <div class="text-primary font-mono text-sm">
-      <button class="p-2 bg-rose text-primary font-mono text-sm" id="get-started-button">Get Started</button>
+    <div class="text-primary text-sm">
+      <button class="p-2 bg-buff text-secondary hover:bg-rose text-sm rounded-r-lg disabled:bg-rose" id="get-started-button">Get Started</button>
     </div>
   </div>
   <!-- error messages if they exist -->
-  <div class="w-full text-primary font-mono flex items-center justify-center mt-3">
-    <div class="text-primary font-mono text-sm" id="get-started-error"></div>
+  <div class="w-full text-primary flex items-center justify-center mt-3">
+    <div class="text-primary text-sm" id="get-started-error"></div>
   </div>
 </div>
 
@@ -35,6 +35,10 @@
 
     const onclick = async (event) => {
         try {
+            // First disable the button and set it's text to "Loading..."
+            document.getElementById("get-started-button").disabled = true;
+            document.getElementById("get-started-button").innerText = "Loading...";
+
             const email = document.getElementById("get-started-email").value;
             const validateEmail = (email) => {
                 return String(email)
@@ -67,6 +71,8 @@
 
             window.location.href = "https://edit-tailor.cryingpotato.com";
         } catch(e) {
+            document.getElementById("get-started-button").disabled = false;
+            document.getElementById("get-started-button").innerText = "Get Started";
             console.error(e);
             document.getElementById("get-started-error").innerText = e.message;
         }
