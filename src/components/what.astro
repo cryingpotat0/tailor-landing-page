@@ -39,7 +39,9 @@ const steps = [
                     <p class="text-center text-rose">{step.subtitle}</p>
                 </div>
                 <div class="col-span-4 md:col-span-3 flex justify-center">
-                    <img src={step.gif} alt={step.name} class="w-full max-w-64 border border-buff rounded-md" />
+                    <div class="w-full max-w-64 h-full md:min-h-64 min-h-32 border border-buff rounded-md">
+                      <img src={step.gif} alt={step.name} class="w-full" />
+                    </div>
                 </div>
             </div>
         ))}
