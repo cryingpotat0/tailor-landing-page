@@ -17,72 +17,74 @@ const navItems: Array<NavItem> = [
   id="page-header"
   class="absolute bottom-0 z-20 flex w-full items-center justify-between border-b border-transparent px-8 py-4"
 >
-  <div class="flex items-center gap-6">
-    <a class="hover:text-rose" href="https://github.com/tailor-landing-page">
-      <Icon icon="github" class="h-6 w-6" />
-    </a>
-    <a class="hover:text-rose" href="https://twitter.com/cryingpotat0">
-      <Icon icon="twitter" class="h-6 w-6" />
-    </a>
-    <a class="flex items-center gap-3 hover:text-rose text-primary" href="#">
+  <div class="grid grid-cols-8 w-full">
+    <div class="flex items-center gap-6 col-span-3">
+      <a class="hover:text-rose" href="https://github.com/tailor-landing-page">
+        <Icon icon="github" class="h-6 w-6" />
+      </a>
+      <a class="hover:text-rose" href="https://twitter.com/cryingpotat0">
+        <Icon icon="twitter" class="h-6 w-6" />
+      </a>
+    </div>
+    <a class="col-span-2 flex items-center justify-center gap-3 hover:text-rose text-primary" href="#">
       <h1 class="sr-only">Tailor</h1>
       <Icon icon="tailor" class="h-10" />
       <h1 class="font-bold">Tailor</h1>
     </a>
-  </div>
-  <div>
-    <div class="flex items-center gap-6 font-bold">
-      <nav class="hidden sm:block">
-        <ul class="flex items-center gap-6">
-          {
-            navItems.map(({ title, url }) => (
-              <li>
-                <a class="text-sm hover:text-rose" href={url}>
-                  {title}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      <button
-        id="open-nav-button"
-        type="button"
-        class="btn sm:hidden"
-        aria-label="Navigation"
-      >
-        <Icon icon="menu" class="h-8 text-primary" />
-      </button>
-    </div>
-    <div id="menu-modal" class="modal hidden" aria-hidden="true">
-      <div class="fixed inset-0 bg-secondary px-8 py-4 text-primary">
-        <div class="space-y-4" role="dialog" aria-modal="true">
-          <header class="text-right">
-            <button
-              id="close-nav-button"
-              type="button"
-              class="btn"
-              aria-label="Close navigation"
-            >
-              <Icon icon="close" class="h-8 text-primary" />
-            </button>
-          </header>
-          <div class="flex justify-center">
-            <Icon icon="tailor" class="h-16" />
+    <div class="col-span-3">
+      <div class="flex items-center justify-end gap-6 font-bold">
+        <nav class="hidden sm:block">
+          <ul class="flex items-center gap-6">
+            {
+              navItems.map(({ title, url }) => (
+                <li>
+                  <a class="text-sm hover:text-rose" href={url}>
+                    {title}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <button
+          id="open-nav-button"
+          type="button"
+          class="btn sm:hidden"
+          aria-label="Navigation"
+        >
+          <Icon icon="menu" class="h-8 text-primary" />
+        </button>
+      </div>
+      <div id="menu-modal" class="modal hidden" aria-hidden="true">
+        <div class="fixed inset-0 bg-secondary px-8 py-4 text-primary">
+          <div class="space-y-4" role="dialog" aria-modal="true">
+            <header class="text-right">
+              <button
+                id="close-nav-button"
+                type="button"
+                class="btn"
+                aria-label="Close navigation"
+              >
+                <Icon icon="close" class="h-8 text-primary" />
+              </button>
+            </header>
+            <div class="flex justify-center">
+              <Icon icon="tailor" class="h-16" />
+            </div>
+            <nav>
+              <ul class="flex flex-col font-bold">
+                {
+                  navItems.map(({ title, url }) => (
+                    <li>
+                      <a class="block py-4 text-center text-xl" href={url}>
+                        {title}
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </nav>
           </div>
-          <nav>
-            <ul class="flex flex-col font-bold">
-              {
-                navItems.map(({ title, url }) => (
-                  <li>
-                    <a class="block py-4 text-center text-xl" href={url}>
-                      {title}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </nav>
         </div>
       </div>
     </div>
