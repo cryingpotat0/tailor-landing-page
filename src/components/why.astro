@@ -1,0 +1,35 @@
+---
+import Icon from './icon.astro';
+
+const reasons = [
+    {
+        reason: "Every edit needs a context switch.",
+        icon: "code",
+    },
+    {
+        reason: "Not everyone can contribute to a complex codebase.",
+        icon: "people",
+    },
+    {
+        reason: "Local dev environments makes comparing changes hard.",
+        icon: "diff",
+    },
+];
+---
+
+<section class="flex-col md:flex-row flex scroll-mt-24 items-center space-y-2" id="why">
+    <h2
+      class="text-center font-extrabold text-4xl w-full"
+    >
+        Beautiful websites require a billion tweaks. <br />
+        Tools today get in our way.
+    </h2>
+    <div class="w-full md:w-1/2 text-xl font-semibold">
+        {reasons.map(({ reason, icon }) => (
+            <div class="grid grid-cols-6 m-10 items-center">
+                <Icon icon={icon} class="w-12 h-12 text-rose col-span-2" />
+                <p class="text-center text-buff col-span-4">{reason}</p>
+            </div>
+        ))}
+    </div>
+</section>

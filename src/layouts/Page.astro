@@ -12,7 +12,7 @@ interface Menu {
 
 ---
 
-<html lang="en">
+<html lang="en" class="h-full motion-safe:scroll-smooth">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -20,7 +20,7 @@ interface Menu {
 		<meta name="generator" content={Astro.generator} />
 		<title>Tailor</title>
 	</head>
-	<body class="m-10 bg-secondary">
+	<body class="h-full overflow-x-hidden bg-secondary text-primary text-base selection:bg-rose selection:text-white">
         {showTailor ? <Tailor client:load/>: null}
         <slot />
 	</body>

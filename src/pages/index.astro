@@ -3,10 +3,10 @@ import Page from '../layouts/Page.astro';
 import Icon from '../components/icon.astro';
 import GetStarted from '../components/get-started.astro';
 import Footer from '../components/footer.astro';
-import ScissorLeft from '../icons/scissor-left.svg?raw';
-import ScissorRight from '../icons/scissor-right.svg?raw';
-import Github from '../icons/github.svg?raw';
-import Twitter from '../icons/github.svg?raw';
+import Why from '../components/why.astro';
+import What from '../components/what.astro';
+import Header from '../components/header.astro';
+import Splash from '../components/splash.astro';
 
 import { getCollection } from "astro:content";
 
@@ -30,49 +30,13 @@ const links = [
 
 ---
 <Page>
-  <div>
-      <div class="w-full md:w-1/2 h-64 mx-auto flex items-center text-primary">
-          <Icon icon="scissor-left" class="w-full h-full text-rose mr-5" />
-          <div class="text-2xl font-extrabold font-mono text-bold">tailor</div>
-          <Icon icon="scissor-right" class="w-full h-full text-rose ml-5" />
-      </div>
-      <div class="text-center text-primary justify-center flex mt-3 mb-6">
-        {links.map((link) => {
-            return (
-                <a target="_blank" href={link.href} class="text-primary mx-3 hover:text-buff p-1">
-                    <Icon icon={link.icon} class="w-6 h-6"/>
-                </a>
-            );
-        })}
-      </div>
-      <div class="text-center text-rose font-mono text-sm max-w-96 mx-auto">
-        <p class="my-3">Edit websites from the browser.</p>
-        <p class="my-3">No installation needed, just click and edit.</p>
-        <p class="my-3">Never open up a terminal for tiny tweaks.</p>
-      </div>
-      <div class="flex justify-center">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/jYj6wXWuBB0?si=cDQAZWtP-0a1R_8M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-      <GetStarted />
-      <div class="w-full text-center text-primary font-mono ">
-        <!-- Feature panels -->
-        <div class="flex flex-wrap justify-center gap-2 my-5">
-          {features.map((feature, i) => {
-            const Content = renderedFeatures[i];
-            return (
-              <div class="w-full md:w-1/4 h-64 bg-rose p-4">
-                  <div class="text-center text-primary font-bold font-mono text-bold mb-3">{feature.data.title}</div>
-                  <div class="text-secondary font-mono text-sm">
-                      <Content />
-                  </div>
-                </div>
-              </div>
-            )
-          }
-          )}
-      </div>
-      <Footer />
+  <Header />
+  <Splash />
+  <div class="space-y-24 px-8 py-32">
+    <Why />
+    <What />
   </div>
+  <Footer />
 </Page>
 
 
