@@ -1,5 +1,6 @@
 ---
 import Tailor from '../components/Tailor.tsx';
+import Posthog from '../components/Posthog.astro';
 
 const showTailor = import.meta.env.SHOW_TAILOR;
 
@@ -10,6 +11,10 @@ interface Menu {
   badge?: string;
 }
 
+const { generator, site } = Astro;
+const image = new URL("social.png", site);
+const description =
+  "Tailor - Tweak Your Website From The Web.";
 ---
 
 <html lang="en" class="h-full motion-safe:scroll-smooth">
@@ -19,6 +24,17 @@ interface Menu {
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Tailor</title>
+
+        <!-- social media -->
+        <meta property="og:title" content="Tailor" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
+        <meta property="og:url" content={site} />
+        <meta name="twitter:card" content="summary_large_image" />
+
+        <!-- posthog -->
+        <Posthog />
 	</head>
 	<body class="h-full overflow-x-hidden bg-secondary text-primary text-base selection:bg-rose selection:text-white">
         {showTailor ? <Tailor client:load/>: null}
