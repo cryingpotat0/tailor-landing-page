@@ -1,4 +1,4 @@
-import { faEye, faAlignJustify, faPencil, faScissors, type IconDefinition, faLink, faCheckCircle, faCross, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faAlignJustify, faPencil, faScissors, type IconDefinition, faLink, faCheckCircle, faCross, faXmarkCircle, faMagic, faMagicWandSparkles } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getBox } from "css-box-model";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -251,6 +251,7 @@ enum Tool {
   Edit = 'Edit Text',
   Locate = 'Locate',
   Link = 'Update Link',
+  Magic = 'Magic',
 };
 
 type ToolData = {
@@ -265,6 +266,14 @@ type ToolData = {
 
 
 const tools: ToolData[] = [
+  {
+    name: Tool.Magic,
+    icon: faMagicWandSparkles,
+    shouldShow: ({ element }) => {
+      return true;
+    },
+    shouldShowBoundingBox: true,
+  },
   {
     name: Tool.CSS,
     icon: faAlignJustify,
@@ -355,7 +364,7 @@ function Toolbar({
 
   const width = 250; // px
   const height = 250; // px
-  let top, left, right;
+  let top, left, right, bottom;
 
   const { x: mouseX, y: mouseY } = useMousePosition();
   const pointerEvents = state.status === Status.inspecting ? 'none' : 'auto';
@@ -367,8 +376,11 @@ function Toolbar({
 
 
   if (isSelected) {
-    top = state.mouseY > height ? state.mouseY - height : state.mouseY;
-    right = state.mouseX > screenWidth - width ? screenWidth - state.mouseX : screenWidth - width - state.mouseX;
+    // top = state.mouseY > height ? state.mouseY - height : state.mouseY;
+    // right = state.mouseX > screenWidth - width ? screenWidth - state.mouseX : screenWidth - width - state.mouseX;
+    const boundingRect = element.getBoundingClientRect();
+    left = boundingRect.right > width ? boundingRect.right - width : boundingRect.right;
+    top = boundingRect.top > height ? boundingRect.top - height : boundingRect.bottom;
   } else {
     top = mouseY > height ? mouseY - height : mouseY;
     right = mouseX > screenWidth - width ? screenWidth - mouseX : screenWidth - width - mouseX;
@@ -383,6 +395,8 @@ function Toolbar({
       style={{
         top,
         right,
+        left,
+        bottom,
         width,
         height,
       }}
@@ -449,11 +463,53 @@ function ToolDisplay({
       return <Locate location={location} />
     case Tool.Link:
       return <LinkUpdate element={element} location={location} />
+    case Tool.Magic:
+      return <Magic element={element} location={location} />
     default:
       let _exhaustiveCheck: never = tool;
       return _exhaustiveCheck;
   }
 }
+
+function Magic({
+  element,
+  location,
+}: {
+  element: HTMLElement,
+  location: Location | undefined,
+}) {
+  const [userAction, setUserAction] = useState('');
+  return (
+    <>
+      <div className="flex gap-2 text-xs">
+        <input type="text" className="w-full bg-buff p-1 rounded" placeholder="Make this darker.." value={userAction} onChange={(e) => setUserAction(e.target.value)} />
+        <button className="bg-buff text-secondary p-1 rounded disabled:bg-gray-50 hover:bg-rose text-xs"
+          disabled={!userAction}
+          onClick={async () => {
+            const edit /* Edit */ = {
+              type: 'precise',
+              action: userAction,
+              filePath: location.filePath,
+              lineNumber: location.lineNumber,
+            };
+            parent.postMessage({
+              type: 'apiCall',
+              url: window.location.href,
+              body: {
+                edit,
+              },
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }, '*');
+          }}
+        >Perform</button>
+      </div>
+    </>
+  )
+}
+
+
 
 function LinkUpdate({
   element,
@@ -532,52 +588,57 @@ function EditElement({
   }, []);
 
   return (
-    <div className="flex gap-2">
-      <button
-        className="bg-rose text-secondary p-1 rounded text-sm hover:bg-buff"
-        onClick={() => {
-          element.contentEditable = 'false';
-          setTool(null);
-          const edit: any /* Edit */ = {
-            type: location.type === 'self' ? 'precise' : 'imprecise',
-            action: `Edit text from ${initialText.current} to ${element.textContent}`,
-          };
-          if (location.type === 'self') {
-            edit.filePath = location.filePath;
-            edit.lineNumber = location.lineNumber;
-          } else {
-            edit.preciseParent = {
-              filePath: location.filePath,
-              lineNumber: location.lineNumber,
+    <div>
+      <div className="flex gap-2">
+        <button
+          className="bg-rose text-secondary p-1 rounded text-sm hover:bg-buff"
+          onClick={() => {
+            element.contentEditable = 'false';
+            setTool(null);
+            const edit: any /* Edit */ = {
+              type: location.type === 'self' ? 'precise' : 'imprecise',
+              action: `Edit text from ${initialText.current} to ${element.textContent}`,
+            };
+            if (location.type === 'self') {
+              edit.filePath = location.filePath;
+              edit.lineNumber = location.lineNumber;
+            } else {
+              edit.preciseParent = {
+                filePath: location.filePath,
+                lineNumber: location.lineNumber,
+              }
             }
-          }
 
-          parent.postMessage({
-            type: 'apiCall',
-            url: window.location.href,
-            body: {
-              edit,
-            },
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }, '*');
-        }}
-      >
-        <FontAwesomeIcon icon={faCheckCircle} />
-      </button>
-      <button
-        className="bg-rose text-secondary p-1 rounded text-sm hover:bg-buff"
-        onClick={() => {
-          element.contentEditable = 'false';
-          if (initialText.current) {
-            element.textContent = initialText.current;
-          }
-          setTool(null);
-        }}
-      >
-        <FontAwesomeIcon icon={faXmarkCircle} />
-      </button>
+            parent.postMessage({
+              type: 'apiCall',
+              url: window.location.href,
+              body: {
+                edit,
+              },
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }, '*');
+          }}
+        >
+          <FontAwesomeIcon icon={faCheckCircle} />
+        </button>
+        <button
+          className="bg-rose text-secondary p-1 rounded text-sm hover:bg-buff"
+          onClick={() => {
+            element.contentEditable = 'false';
+            if (initialText.current) {
+              element.textContent = initialText.current;
+            }
+            setTool(null);
+          }}
+        >
+          <FontAwesomeIcon icon={faXmarkCircle} />
+        </button>
+      </div>
+      <span className="text-sm">
+        Start typing!
+      </span>
     </div>
   )
 }
