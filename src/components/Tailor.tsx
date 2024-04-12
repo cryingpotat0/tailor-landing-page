@@ -519,6 +519,7 @@ function LinkUpdate({
   location: Location | undefined,
 }) {
   const [newHref, setNewHref] = useState(element instanceof HTMLAnchorElement ? element.href : '');
+  const [oldHref, _] = useState(element instanceof HTMLAnchorElement ? element.href : '');
   return (
     <div className="flex gap-2 text-xs">
       <input type="text" className="w-full bg-buff p-1 rounded" placeholder="New href" value={newHref} onChange={(e) => setNewHref(e.target.value)} />
@@ -527,7 +528,7 @@ function LinkUpdate({
         onClick={async () => {
           const edit /* Edit */ = {
             type: 'precise',
-            action: `Update link to ${newHref}`,
+            action: `Update link ${oldHref} to ${newHref}`,
             filePath: location.filePath,
             lineNumber: location.lineNumber,
           };
