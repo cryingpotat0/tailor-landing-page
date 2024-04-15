@@ -1,0 +1,39 @@
+
+---
+import Icon from './icon.astro';
+
+const faq = [
+    {
+        question: "How do I use this?",
+        answer: "Go to the 'What' section, enter your email, and click 'Get Started'. Once it's open use the three buttons on the top right to make edits. The scissor icon activates Tailor and allow you to edit elements. The check icon submits your code changes to Github as a PR. The code icon opens up a code editor.",
+    },
+    {
+        question: "I don't want to give you my email!",
+        answer: "Emails are not validated - feel free to use test@test.com to play around with it."
+    },
+    {
+        question: "It's too slow to startup!!",
+        answer: "The initial clone of the repo and spinning up the WebContainer to display your code might be slow since there are a ton of resources that need to be downloaded. Webcontainers, for example, have to download every NPM package that the Astro project uses. Subsequent runs should be much quicker.",
+    },
+    {
+        question: "It's too slow to edit my code!!",
+        answer: "Tailor relies on slower but 'smarter' LLMs to make edits - less smart models just don't seem to work. This is meant as a proof of concept, so imagine a world in which the interface is the same, but everything is 100x faster.",
+    },
+    {
+        question: "Is Tailor a real product?",
+        answer: "Nope, Tailor is squarely in experiment territory. I don't plan to do all the optimization and polish necessary to make something like this actually useful.",
+    }
+];
+---
+
+<section class="flex-col flex scroll-mt-24 items-center space-y-2 h-full relative" id="faq">
+    <h2 class="text-3xl font-bold">FAQ</h2>
+    <div class="flex-col space-y-4 w-full md:w-1/2">
+        {faq.map(({ question, answer }) => (
+            <div class="flex-col space-y-2">
+                <h3 class="text-lg font-bold text-buff">{question}</h3>
+                <p class="text-rose">{answer}</p>
+            </div>
+        ))}
+    </div>
+</section>
