@@ -150,7 +150,7 @@ function Canvas() {
   }, [state, tool]);
 
   return (
-    <div className="fixed top-0 right-[64px] exclude-tracking z-[5000]">
+    <div className="fixed top-0 right-[96px] exclude-tracking z-[5000]">
       <button
         className={`p-1 w-[32px] h-[40px] ${state.status === Status.inspecting ? 'bg-primary text-secondary' : 'bg-rose text-primary hover:bg-secondary'}`}
         onClick={() => {

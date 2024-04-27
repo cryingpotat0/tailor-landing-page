@@ -30,7 +30,7 @@ const links: {
 
 <footer>
 {links.map((link, index) => (
-    <div class="flex items-center justify-center m-1 font-mono">
+    <div class="flex items-center justify-center m-1 font-mono text-primary">
         <div class="text-sm text-center">{link.description}</div>
             <a href={link.url} target="_blank" rel="noopener noreferrer" key={index} class="ml-2 font-bold flex items-center align-middle hover:text-buff">
                     {link.icon && <Icon icon={link.icon} class="w-6 h-6 mr-2" />}
